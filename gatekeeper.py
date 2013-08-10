@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import bottle
 from bottle import route, run, response
 #Import the package needed for GPIO controls
