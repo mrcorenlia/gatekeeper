@@ -9,17 +9,18 @@ from time import sleep
 @route('/', method='GET')
 def homepage():
     return 'Hello world!'
-    
+ 
 @route('/status', method='GET')
 def getDoorStatus():
     response.content_type = 'application/json'
+    response.headers['Access-Control-Allow-Origin'] = '*'
 
     #press = not GPIO.input(15)
     press = isDoorOpen()
     if press == True:
-        return "{ \"door\": { \"open\": true } }"
+        return "{ \"open\": true }"
     else:
-        return "{ \"door\": { \"open\": false } }"
+        return "{ \"open\": false }"
     
 @route('/close', method='POST')
 def closeDoor():
@@ -64,4 +65,4 @@ def isDoorOpen():
     return not GPIO.input(15)
     
 bottle.debug(True) 
-run(host='192.168.1.27', reloader=True)
+run(host='0.0.0.0', reloader=True)

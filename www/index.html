@@ -1,0 +1,48 @@
+<html>
+<head>
+    <title>Gatekeeper</title>
+    <style>
+        .closed {
+            color: #46a546;
+        }
+        .open {
+            color: #a9302a;
+        }
+    </style>
+
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container">
+    <h1>Status: <span id="status"></span></h1>
+</div>
+<div class="container">
+    <button type="button" class="btn btn-primary toggle">Toggle Door</button>
+</div>
+<script>
+    var seconds = 5;
+
+    setInterval(function(){
+        $.get('http://' + window.location.hostname +  ':8080/status',function(data) {
+            if(data.open) {
+                $("#status").text("Open");
+                $("#status").removeClass("closed");
+                $("#status").addClass("open");
+            } else {
+                $("#status").text("Closed");
+                $("#status").addClass("closed");
+                $("#status").removeClass("open");
+            }
+        });
+    }, seconds * 1000);
+
+    $(".toggle").click(function() {
+        $.post('http://' + window.location.hostname +  ':8080/toggle');
+
+    })
+</script>
+</body>
+</html>
+
